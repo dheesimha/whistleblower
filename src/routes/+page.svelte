@@ -37,7 +37,7 @@
 
         // Get the signer
         signer.set(provider.getSigner());
-
+        
         // Proceed with further interactions using 'provider' and 'signer'
 
         // For example, you can interact with your contract using the signer:
@@ -46,6 +46,7 @@
         let post = await contract.getAllPosts();
         console.log(post);
         console.log(contract);
+        
       } catch (error) {
         // Handle errors during account access request or other interactions
         console.error("Error:", error);

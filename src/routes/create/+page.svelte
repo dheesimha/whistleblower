@@ -1,11 +1,16 @@
 <script>
     import lighthouse from '@lighthouse-web3/sdk'
+    import {signer} from '../../stores'
+    import { onMount } from 'svelte';
     const progressCallback = (progressData) => {
     let percentageDone =
       100 - (progressData?.total / progressData?.uploaded)?.toFixed(2)
-    console.log(percentageDone)
+    console.log(percentageDone
+    )
   }
-
+onMount(()=>{
+  console.log($signer)
+})
   const uploadFile = async(file) =>{
 
     const output = await lighthouse.upload(file, "d8ee101c.800c068867e54a9c881008303220d9f0", false, null, progressCallback)
@@ -13,6 +18,8 @@
 
       console.log('Visit at https://gateway.lighthouse.storage/ipfs/' + output.data.Hash)
     }
+    
+
 
     
 </script>
