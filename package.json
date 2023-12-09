@@ -20,13 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-<<<<<<< HEAD
-		"@pushprotocol/restapi": "^1.4.45",
-=======
-		"@emotion/react": "^11.11.1",
-		"@emotion/styled": "^11.11.0",
-		"@mui/material": "^5.14.20",
->>>>>>> 53983a86db6ad6e74bb6929d0e7d7785b78adf57
+		"@lighthouse-web3/sdk": "^0.3.0",
 		"ethers": "^5.7.2",
 		"svelte-icons-pack": "^2.1.0"
 	}
