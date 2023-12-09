@@ -4,7 +4,6 @@
   import ABI from "../Whistleblower.json";
  
   import Posts from '$lib/Posts.svelte'
-    import { get } from "svelte/store";
   let window2, provider;
   let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
   onMount(async () => {
