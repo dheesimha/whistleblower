@@ -2,8 +2,10 @@
   import { onMount } from "svelte";
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
- 
+  // import { Button, Modal } from 'antd';
+import Modal from '@mui/material/Modal'
   import Posts from '$lib/Posts.svelte'
+  let isModalOpen = false
   let window2, provider;
   let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
   onMount(async () => {
@@ -74,10 +76,15 @@ async function getPosts()  {
     get Post
   </button>
   <!-- {times.map((time) => ( -->
+    <div on:click={()=>isModalOpen=true} >
+    <Posts   /></div>
     <Posts />
     <Posts />
-    <Posts />
-  
+    <Modal open=true>
+      
+    </Modal>
+
+    
 </div>
 
 
@@ -118,24 +125,6 @@ async function getPosts()  {
   padding: 0.5rem;
 }
 
-.post-details {
-  margin-bottom: 0.3rem;
-}
-
-.post-details small {
-  padding: 0.5rem;
-}
-
-.post-details .subreddit-name {
-  font-size: 0.9rem;
-  font-weight: bolder;
-  padding-left: 2.5rem;
-}
-
-.post-details .username {
-  color: grey;
-  margin-left: 2rem;
-}
 
 /* css for post and upvotes */
 body{

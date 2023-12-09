@@ -29,6 +29,10 @@
 
 
 <style>
+  *{
+    padding: 0;
+    margin: 0;
+  }
     .reddit-card {
     max-width: 600px;
     text-align: left;
@@ -53,7 +57,7 @@
   font-weight: bolder;
   font-size: 20px;
   padding-bottom: 0.5rem;
-  border-bottom: 0.2px solid #637680;
+  /* border-bottom: 0.2px solid #637680; */
 }
 
 .card-votes {
@@ -75,5 +79,25 @@
 
 .card-content {
   margin: 0.2rem;
+}
+
+
+.post-details {
+  margin-bottom: 0.3rem;
+}
+
+.post-details small {
+  padding: 0.5rem;
+}
+
+.post-details .subreddit-name {
+  font-size: 0.9rem;
+  font-weight: bolder;
+  padding-left: 2.5rem;
+}
+
+.post-details .username {
+  color: grey;
+  margin-left: 2rem;
 }
 </style>
