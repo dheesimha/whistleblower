@@ -38,7 +38,8 @@
         // For example, you can interact with your contract using the signer:
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
         // Call contract functions, etc.
-
+        let post = await contract.getAllPosts();
+        console.log(post);
         console.log(contract);
       } catch (error) {
         // Handle errors during account access request or other interactions
@@ -78,7 +79,7 @@
     get Post
   </button>
   <!-- {times.map((time) => ( -->
-  <Posts />
+  <Posts  />
   <Posts />
 
   <button on:click={() => (showModal = true)}> show modal </button>
