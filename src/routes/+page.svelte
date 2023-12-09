@@ -2,10 +2,10 @@
   import { onMount } from "svelte";
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
+  import Modal from "$lib/Modal.svelte";
   // import { Button, Modal } from 'antd';
-import Modal from '@mui/material/Modal'
-  import Posts from '$lib/Posts.svelte'
-  let isModalOpen = false
+  import Posts from "$lib/Posts.svelte";
+  let showModal = false;
   let window2, provider;
   let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
   onMount(async () => {
@@ -31,7 +31,7 @@ import Modal from '@mui/material/Modal'
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-         signer = provider.getSigner();
+        signer = provider.getSigner();
 
         // Proceed with further interactions using 'provider' and 'signer'
 
@@ -40,7 +40,6 @@ import Modal from '@mui/material/Modal'
         // Call contract functions, etc.
 
         console.log(contract);
-
       } catch (error) {
         // Handle errors during account access request or other interactions
         console.error("Error:", error);
@@ -53,17 +52,20 @@ import Modal from '@mui/material/Modal'
     }
   }
 
-async function createPost()  { 
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-  await contract.createPost('this is title', 'this is the long description', 'https://gateway.lighthouse.storage/ipfs/QmXPT5Kw285W96jdCes5SufvrqQvYN8dtMM258kW9Eqy3u', '11' )
-  
-}
-async function getPosts()  { 
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-  let post = await contract.getAllPosts()
-  console.log(post);
-  
-}
+  async function createPost() {
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    await contract.createPost(
+      "this is title",
+      "this is the long description",
+      "https://gateway.lighthouse.storage/ipfs/QmXPT5Kw285W96jdCes5SufvrqQvYN8dtMM258kW9Eqy3u",
+      "11"
+    );
+  }
+  async function getPosts() {
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    let post = await contract.getAllPosts();
+    console.log(post);
+  }
 </script>
 
 <div class="show-post">
@@ -76,66 +78,83 @@ async function getPosts()  {
     get Post
   </button>
   <!-- {times.map((time) => ( -->
-    <div on:click={()=>isModalOpen=true} >
-    <Posts   /></div>
-    <Posts />
-    <Posts />
-    <Modal open=true>
-      
-    </Modal>
+  <Posts />
+  <Posts />
 
-    
+  <button on:click={() => (showModal = true)}> show modal </button>
+
+  <Modal bind:showModal>
+    <h2 slot="header">
+      modal
+      <small><em>adjective</em> mod·al \ˈmō-dəl\</small>
+    </h2>
+
+    <ol class="definition-list">
+      <li>of or relating to modality in logic</li>
+      <li>
+        containing provisions as to the mode of procedure or the manner of
+        taking effect —used of a contract or legacy
+      </li>
+      <li>of or relating to a musical mode</li>
+      <li>of or relating to structure as opposed to substance</li>
+      <li>
+        of, relating to, or constituting a grammatical form or category
+        characteristically indicating predication
+      </li>
+      <li>of or relating to a statistical mode</li>
+    </ol>
+
+    <a href="https://www.merriam-webster.com/dictionary/modal"
+      >merriam-webster.com</a
+    >
+  </Modal>
 </div>
-
 
 <button on:click={connectWallet}>connect wallet</button>
 
 <style>
-  *{
-  padding: 0;
-  margin: 0;
-}
- 
-.btn-createpost {
-  max-width: 200px;
-  width: 100%;
-  margin: 0.5rem;
-  padding: 0.7rem 0.5rem;
-  border: none;
-  background: #1485d6;
-  color: white;
-  border-radius: 0.4rem;
-  opacity: 0.8;
-}
+  * {
+    padding: 0;
+    margin: 0;
+  }
 
-.btn-createpost:hover {
-  opacity: 1;
-}
+  .btn-createpost {
+    max-width: 200px;
+    width: 100%;
+    margin: 0.5rem;
+    padding: 0.7rem 0.5rem;
+    border: none;
+    background: #1485d6;
+    color: white;
+    border-radius: 0.4rem;
+    opacity: 0.8;
+  }
 
-.btn-createpost a {
-  font-size: 1rem;
-  color: #fefeff;
-}
+  .btn-createpost:hover {
+    opacity: 1;
+  }
+
+  .btn-createpost a {
+    font-size: 1rem;
+    color: #fefeff;
+  }
   .show-post {
-  margin: 1rem 0;
-  font-family: "Quicksand", sans-serif;
-  text-align: center;
-  background: #dbe0e7;
-  height: 100%;
-  padding: 0.5rem;
-}
+    margin: 1rem 0;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+    background: #dbe0e7;
+    height: 100%;
+    padding: 0.5rem;
+  }
 
+  /* css for post and upvotes */
+  body {
+    background-color: #637680;
+  }
 
-/* css for post and upvotes */
-body{
-  background-color: #637680;
-}
-
-@media only screen and (max-width: 400px) {
-  /* body {
+  @media only screen and (max-width: 400px) {
+    /* body {
     background-color: lightblue;
   } */
-
-
-}
+  }
 </style>
