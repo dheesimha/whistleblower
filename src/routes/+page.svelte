@@ -1,13 +1,13 @@
 <script>
   import { onMount } from "svelte";
-  // import { PushAPI, CONSTANTS } from "@pushprotocol/restapi";
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
+  import Modal from "$lib/Modal.svelte";
+  // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
+  let showModal = false;
   let window2, provider;
   let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
-  let userAlice;
-  let signer;
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
@@ -18,6 +18,7 @@
     //   const signer = provider.getSigner();
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
+  let signer;
 
   async function connectWallet() {
     if (window2.ethereum) {
@@ -31,22 +32,6 @@
 
         // Get the signer
         signer = provider.getSigner();
-
-        // Initializing push
-        // userAlice = await PushAPI.initialize(signer, {
-        //   env: CONSTANTS.ENV.STAGING,
-        // });
-
-        //Creating a channel
-        // userAlice.channel.create({options})
-        // const channelCreationResponse = await userAlice.channel.create({
-        //   name: "Test Channel",
-        //   description: "Test Description",
-        //   icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4AcXBsU0EQQyG0e+saWJ7oACiKYDMEZVs6GgSpC2BIhzRwAS0sgk9HKn3gpFOAv3v3V4/3+4U4Z1q5KTy42Ql940qvFONnFSGmCFmiN2+fj7uCBlihpgh1ngwcvKfwjuVIWaIGWKNB+GdauSk8uNkJfeNKryzYogZYoZY40m5b/wlQ8wQM8TayMlKeKcaOVkJ71QjJyuGmCFmiDUe+HFy4VyEd57hx0mV+0ZliBlihlgL71w4FyMnVXhnZeSkiu93qheuDDFDzBD7BcCyMAOfy204AAAAAElFTkSuQmCC",
-        //   url: "https://push.org",
-        // });
-
-        // console.log(channelCreationResponse);
 
         // Proceed with further interactions using 'provider' and 'signer'
 
@@ -95,7 +80,34 @@
   <!-- {times.map((time) => ( -->
   <Posts />
   <Posts />
-  <Posts />
+
+  <button on:click={() => (showModal = true)}> show modal </button>
+
+  <Modal bind:showModal>
+    <h2 slot="header">
+      modal
+      <small><em>adjective</em> mod·al \ˈmō-dəl\</small>
+    </h2>
+
+    <ol class="definition-list">
+      <li>of or relating to modality in logic</li>
+      <li>
+        containing provisions as to the mode of procedure or the manner of
+        taking effect —used of a contract or legacy
+      </li>
+      <li>of or relating to a musical mode</li>
+      <li>of or relating to structure as opposed to substance</li>
+      <li>
+        of, relating to, or constituting a grammatical form or category
+        characteristically indicating predication
+      </li>
+      <li>of or relating to a statistical mode</li>
+    </ol>
+
+    <a href="https://www.merriam-webster.com/dictionary/modal"
+      >merriam-webster.com</a
+    >
+  </Modal>
 </div>
 
 <button on:click={connectWallet}>connect wallet</button>
@@ -133,25 +145,6 @@
     background: #dbe0e7;
     height: 100%;
     padding: 0.5rem;
-  }
-
-  .post-details {
-    margin-bottom: 0.3rem;
-  }
-
-  .post-details small {
-    padding: 0.5rem;
-  }
-
-  .post-details .subreddit-name {
-    font-size: 0.9rem;
-    font-weight: bolder;
-    padding-left: 2.5rem;
-  }
-
-  .post-details .username {
-    color: grey;
-    margin-left: 2rem;
   }
 
   /* css for post and upvotes */
