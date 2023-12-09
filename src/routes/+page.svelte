@@ -3,6 +3,7 @@
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
   import Modal from "$lib/Modal.svelte";
+  import {signer} from "../stores.js";
   // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
   let showModal = false;
@@ -11,6 +12,11 @@
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
+    if($signer!==null || $signer!==undefined)
+    {
+      await connectWallet()
+
+    }
 
     //   let ANTI_ADDRESS = 0xd9145cce52d386f254917e481eb44e9943f39138;
     //   let ANTI_ABI = ABI;
@@ -18,7 +24,6 @@
     //   const signer = provider.getSigner();
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
-  let signer;
 
   async function connectWallet() {
     if (window2.ethereum) {
@@ -31,12 +36,12 @@
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-        signer = provider.getSigner();
+        signer.set(provider.getSigner());
 
         // Proceed with further interactions using 'provider' and 'signer'
 
         // For example, you can interact with your contract using the signer:
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
         // Call contract functions, etc.
         let post = await contract.getAllPosts();
         console.log(post);
@@ -54,7 +59,7 @@
   }
 
   async function createPost() {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
     await contract.createPost(
       "this is title",
       "this is the long description",
@@ -63,7 +68,7 @@
     );
   }
   async function getPosts() {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
     let post = await contract.getAllPosts();
     console.log(post);
   }
@@ -111,7 +116,7 @@
   </Modal>
 </div>
 
-<button on:click={connectWallet}>connect wallet</button>
+<!-- <button on:click={connectWallet}>connect wallet</button> -->
 
 <style>
   * {
