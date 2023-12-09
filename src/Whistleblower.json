@@ -1,198 +1,263 @@
 [
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "post_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "comment",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "user_id",
-        "type": "string"
-      }
-    ],
-    "name": "addComments",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "post_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "choice",
-        "type": "uint256"
-      }
-    ],
-    "name": "castVote",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "post_title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "post_description",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "file_address",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "uploader_id",
-        "type": "string"
-      }
-    ],
-    "name": "createPost",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "post_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getCommentsByPost",
-    "outputs": [
-      {
-        "internalType": "string[]",
-        "name": "",
-        "type": "string[]"
-      },
-      {
-        "internalType": "string[]",
-        "name": "",
-        "type": "string[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "post_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getPost",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "postsArray",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "post_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "post_title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "post_description",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "file_address",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "uploader_id",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "upvotes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "downvotes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "commentsSize",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "post_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "user_id",
+				"type": "string"
+			}
+		],
+		"name": "addComments",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "post_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "choice",
+				"type": "uint256"
+			}
+		],
+		"name": "castVote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "post_title",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "post_description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "file_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "uploader_id",
+				"type": "string"
+			}
+		],
+		"name": "createPost",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllPosts",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "post_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "post_title",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "post_description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "file_address",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "uploader_id",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "user_id",
+						"type": "string[]"
+					},
+					{
+						"internalType": "string[]",
+						"name": "comments",
+						"type": "string[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upvotes",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "downvotes",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "commentsSize",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Whistleblower.Post[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "post_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getCommentsByPost",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "post_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getPost",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "postsArray",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "post_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "post_title",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "post_description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "file_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "uploader_id",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "upvotes",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "downvotes",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "commentsSize",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
 ]

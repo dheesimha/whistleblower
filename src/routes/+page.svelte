@@ -1,17 +1,18 @@
 <script>
   import { onMount } from "svelte";
+  // import { PushAPI, CONSTANTS } from "@pushprotocol/restapi";
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
-  import Icon from "svelte-icons-pack/Icon.svelte";
-  import BiUpvote from "svelte-icons-pack/bi/BiUpvote";
-  import BiDownvote from "svelte-icons-pack/bi/BiDownvote";
+  import Posts from "$lib/Posts.svelte";
   let window2, provider;
-  let CONTRACT_ADDRESS = "0xE27E7fB383F12e2e7D97bF5e518c40bE837c468d";
+  let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
+  let userAlice;
+  let signer;
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
 
-    //   let ANTI_ADDRESS = 0xE27E7fB383F12e2e7D97bF5e518c40bE837c468d;
+    //   let ANTI_ADDRESS = 0xd9145cce52d386f254917e481eb44e9943f39138;
     //   let ANTI_ABI = ABI;
     //   const provider = new ethers.providers.Web3Provider(window2.ethereum);
     //   const signer = provider.getSigner();
@@ -29,7 +30,23 @@
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-        const signer = provider.getSigner();
+        signer = provider.getSigner();
+
+        // Initializing push
+        // userAlice = await PushAPI.initialize(signer, {
+        //   env: CONSTANTS.ENV.STAGING,
+        // });
+
+        //Creating a channel
+        // userAlice.channel.create({options})
+        // const channelCreationResponse = await userAlice.channel.create({
+        //   name: "Test Channel",
+        //   description: "Test Description",
+        //   icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4AcXBsU0EQQyG0e+saWJ7oACiKYDMEZVs6GgSpC2BIhzRwAS0sgk9HKn3gpFOAv3v3V4/3+4U4Z1q5KTy42Ql940qvFONnFSGmCFmiN2+fj7uCBlihpgh1ngwcvKfwjuVIWaIGWKNB+GdauSk8uNkJfeNKryzYogZYoZY40m5b/wlQ8wQM8TayMlKeKcaOVkJ71QjJyuGmCFmiDUe+HFy4VyEd57hx0mV+0ZliBlihlgL71w4FyMnVXhnZeSkiu93qheuDDFDzBD7BcCyMAOfy204AAAAAElFTkSuQmCC",
+        //   url: "https://push.org",
+        // });
+
+        // console.log(channelCreationResponse);
 
         // Proceed with further interactions using 'provider' and 'signer'
 
@@ -49,87 +66,46 @@
       console.log("outside this func");
     }
   }
+
+  async function createPost() {
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    await contract.createPost(
+      "this is title",
+      "this is the long description",
+      "https://gateway.lighthouse.storage/ipfs/QmXPT5Kw285W96jdCes5SufvrqQvYN8dtMM258kW9Eqy3u",
+      "11"
+    );
+  }
+  async function getPosts() {
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    let post = await contract.getAllPosts();
+    console.log(post);
+  }
 </script>
 
 <div class="show-post">
-  <button class="btn-createpost">
+  <button class="btn-createpost" on:click={createPost}>
     <!-- <Link to="/create">Create New Post</Link> -->
     Create Post
   </button>
-
+  <button class="btn-createpost" on:click={getPosts}>
+    <!-- <Link to="/create">Create New Post</Link> -->
+    get Post
+  </button>
   <!-- {times.map((time) => ( -->
-  <div class="reddit-card">
-    <div class="post-details">
-      <!-- <small class="subreddit-name"></small> -->
-      <small class="username">posted by u/long_username</small>
-    </div>
-
-    <div class="reddit-inner-card">
-      <div class="card-votes">
-        <button>
-          <Icon src={BiUpvote} size="23" />
-        </button>
-        <p>9</p>
-        <button>
-          <Icon src={BiDownvote} size="23" />
-        </button>
-      </div>
-      <div class="card-text">
-        <p class="card-title">
-          Genetic doctor recommendation for person with many potential mutations
-        </p>
-        <p class="card-content">
-          Hello, I'm suspected for multiple different genetic disorders, I have
-          dozens of different symptoms and many, many potential mutations.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="reddit-card">
-    <div class="post-details">
-      <!-- <small class="subreddit-name"></small> -->
-      <small class="username">posted by u/long_username</small>
-    </div>
-
-    <div class="reddit-inner-card">
-      <div class="card-votes">
-        <button>
-          <Icon src={BiUpvote} size="23" />
-        </button>
-        <p>9</p>
-        <button>
-          <Icon src={BiDownvote} size="23" />
-        </button>
-      </div>
-      <div class="card-text">
-        <p class="card-title">
-          Genetic doctor recommendation for person with many potential mutations
-        </p>
-        <p class="card-content">
-          Hello, I'm suspected for multiple different genetic disorders, I have
-          dozens of different symptoms and many, many potential mutations.
-        </p>
-      </div>
-    </div>
-  </div>
+  <Posts />
+  <Posts />
+  <Posts />
 </div>
 
-<!-- <button on:click={connectWallet}>connect wallet</button> -->
+<button on:click={connectWallet}>connect wallet</button>
 
 <style>
   * {
     padding: 0;
     margin: 0;
   }
-  .reddit-card {
-    max-width: 600px;
-    text-align: left;
-    /* border: 1px solid black; */
-    margin: 0.5rem auto;
-    padding: 1rem 1rem;
-    background: #fefeff;
-    border-radius: 0.7rem;
-  }
+
   .btn-createpost {
     max-width: 200px;
     width: 100%;
@@ -179,45 +155,6 @@
   }
 
   /* css for post and upvotes */
-
-  .reddit-inner-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start !important;
-  }
-
-  .card-text {
-    width: 100%;
-    margin: auto 0.5rem;
-  }
-
-  .card-text .card-title {
-    font-weight: bolder;
-    font-size: 20px;
-    padding-bottom: 0.5rem;
-    border-bottom: 0.2px solid #637680;
-  }
-
-  .card-votes {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0px;
-    /* background: #e1e1eb; */
-    border-radius: 1.2rem;
-  }
-
-  .card-votes button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0.2rem;
-  }
-
-  .card-content {
-    margin: 0.2rem;
-  }
   body {
     background-color: #637680;
   }

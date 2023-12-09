@@ -19,8 +19,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@pushprotocol/restapi": "^1.4.45",
 		"ethers": "^5.7.2",
-		"react-icons": "^4.12.0",
 		"svelte-icons-pack": "^2.1.0"
 	}
 }
