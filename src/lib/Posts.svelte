@@ -3,11 +3,12 @@
      import Icon from 'svelte-icons-pack/Icon.svelte';
   import BiUpvote from "svelte-icons-pack/bi/BiUpvote";
   import BiDownvote from "svelte-icons-pack/bi/BiDownvote";
+  export let p_id, file,title, description, u_id;
 </script>
 <div class="reddit-card">
     <div class="post-details">
       <!-- <small class="subreddit-name"></small> -->
-      <small class="username">posted by u/long_username</small>
+      <small class="username">posted by {u_id}</small>
     </div>
 
     <div class="reddit-inner-card">
@@ -21,8 +22,8 @@
         </button>
       </div>
       <div class="card-text">
-        <p class="card-title">Genetic doctor recommendation for person with many potential mutations</p>
-        <p class="card-content">Hello, I'm suspected for multiple different genetic disorders, I have dozens of different symptoms and many, many potential mutations.</p>
+        <p class="card-title">{title}</p>
+        <p class="card-content">{description}</p>
       </div>
     </div>
   </div>
