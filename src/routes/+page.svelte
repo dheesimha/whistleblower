@@ -3,7 +3,7 @@
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
   import Modal from "$lib/Modal.svelte";
-  import {signer} from "../stores.js";
+  import { signer, signerAddress } from "../stores.js";
   // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
   let showModal = false;
@@ -12,10 +12,11 @@
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
-    if($signer!==null || $signer!==undefined)
-    {
-      await connectWallet()
-
+    console.log($signer);
+    if ($signer == null || $signer == undefined) {
+      await connectWallet();
+      console.log("calling connectWallet");
+      console.log("Signer");
     }
 
     //   let ANTI_ADDRESS = 0xd9145cce52d386f254917e481eb44e9943f39138;
@@ -36,8 +37,14 @@
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-        signer.set(provider.getSigner());
-        
+        // @ts-ignore
+        await signer.set(provider.getSigner());
+        if ($signer !== null) {
+          let address = await $signer.getAddress();
+          console.log(address);
+          await $signerAddress.set(address);
+        }
+
         // Proceed with further interactions using 'provider' and 'signer'
 
         // For example, you can interact with your contract using the signer:
@@ -46,7 +53,6 @@
         let post = await contract.getAllPosts();
         console.log(post);
         console.log(contract);
-        
       } catch (error) {
         // Handle errors during account access request or other interactions
         console.error("Error:", error);
@@ -85,7 +91,7 @@
     get Post
   </button>
   <!-- {times.map((time) => ( -->
-  <Posts  />
+  <Posts />
   <Posts />
 
   <button on:click={() => (showModal = true)}> show modal </button>
