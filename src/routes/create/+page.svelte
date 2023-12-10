@@ -7,10 +7,14 @@
   let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
 
   let window2, provider;
+  let titleValue=''
+  let descriptionValue=''
+  
 
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
+    myId = localStorage.getItem("signerAddress");
     if ($signer !== null || $signer !== undefined) {
       await connectWallet();
     }
@@ -72,12 +76,9 @@
   };
   let myId;
   console.log($signer);
-  onMount(() => {
-    myId = localStorage.getItem("signerAddress");
-  });
 
   let newLink;
-
+ 
   const uploadFile = async (file) => {
     const output = await lighthouse.upload(
       file,
@@ -97,33 +98,48 @@
 
   async function createPost() {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
+    console.log(titleValue,descriptionValue,newLink,myId)
     await contract.createPost(
-      "title of document",
-      "description of the document",
+      titleValue,
+      descriptionValue,
       newLink,
       myId
     );
+
+    titleValue=''
+    descriptionValue=''
+    
+
+
   }
 </script>
-
+<div class="navbar">
+  <p class="title">Ghost Speak</p>
+  <div class="nav-center">
+      <p class="nav-title">products</p>
+      <p class="nav-title">about us</p>
+      <p class="nav-title">blog</p>
+  </div>
+  <button class="contact-us-button">contact us</button>
+</div>
 <form action="" method="get" class="speaker-form">
   <div class="form-row">
     <h1>Create a post</h1>
   </div>
   <div class="form-row">
     <label for="title">Title of the document</label>
-    <input id="title" name="title" type="text" />
+    <input id="title" name="title" type="text" bind:value={titleValue} />
   </div>
 
   <div class="form-row">
     <label for="description">Description of the case</label>
-    <textarea id="description" name="description" rows="4" cols="50" />
+    <textarea id="description" name="description" rows="4" cols="50" bind:value={descriptionValue}/>
   </div>
 
   <input type="file" on:change={(e) => uploadFile(e.target.files)} />
 
   <div class="form-row">
-    <button>Submit</button>
+    <button on:submit={createPost}>Submit</button>
   </div>
 </form>
 
@@ -140,6 +156,47 @@
     align-items: center;
   }
 
+  .navbar{
+    border-radius: 12px 12px 12px 12px;
+    background-color: white;
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 18px;
+    margin-bottom: 2px;
+}
+.title{
+    font-size: 23px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+}
+
+.nav-center{
+    display: flex;
+}
+
+.nav-title{
+    margin: 0 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contact-us-button{
+    padding: 13px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: white;
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    outline: none;
+}
   .speaker-form-header {
     text-align: center;
     background-color: #f6f7f8;

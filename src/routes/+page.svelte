@@ -95,14 +95,15 @@
 </script>
 
 <div class="show-post">
-  <button class="btn-createpost" on:click={createPost}>
-    <!-- <Link to="/create">Create New Post</Link> -->
-    Create Post
-  </button>
-  <button class="btn-createpost" on:click={getPosts}>
-    <!-- <Link to="/create">Create New Post</Link> -->
-    get Post
-  </button>
+  <div class="navbar">
+    <p class="title">Ghost Speak</p>
+    <div class="nav-center">
+        <p class="nav-title">products</p>
+        <p class="nav-title">about us</p>
+        <p class="nav-title">blog</p>
+    </div>
+    <button class="contact-us-button">contact us</button>
+</div>
   <!-- {times.map((time) => ( -->
   <!-- {allPosts==null? null : allPosts.map((post)=>{  })} -->
   <!-- {allPosts?.map((post) => {
@@ -177,6 +178,48 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
     padding: 0;
     margin: 0;
   }
+
+.navbar{
+    border-radius: 12px 12px 12px 12px;
+    background-color: white;
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 18px;
+    margin-bottom: 2px;
+}
+.title{
+    font-size: 23px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+}
+
+.nav-center{
+    display: flex;
+}
+
+.nav-title{
+    margin: 0 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contact-us-button{
+    padding: 13px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: white;
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    outline: none;
+}
   .comment-section {
     width: 600px;
     display: flex;

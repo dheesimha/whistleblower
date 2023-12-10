@@ -16,7 +16,7 @@
       <button>
         <Icon src={BiUpvote} size="23" />
       </button>
-      <p>9</p>
+      <p>{Math.floor(Math.random() * 10)}</p>
       <button>
         <Icon src={BiDownvote} size="23" />
       </button>
