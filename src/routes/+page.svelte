@@ -25,7 +25,8 @@
     //   const signer = provider.getSigner();
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
-
+  let allPosts;
+  // let post
   async function connectWallet() {
     if (window2.ethereum) {
       try {
@@ -50,8 +51,9 @@
         // For example, you can interact with your contract using the signer:
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
         // Call contract functions, etc.
-        let post = await contract.getAllPosts();
-        console.log(post);
+        allPosts = await contract.getAllPosts();
+        console.log(allPosts);
+        // post = allPosts[0]
         console.log(contract);
       } catch (error) {
         // Handle errors during account access request or other interactions
@@ -91,8 +93,35 @@
     get Post
   </button>
   <!-- {times.map((time) => ( -->
-  <Posts />
-  <Posts />
+  <!-- {allPosts==null? null : allPosts.map((post)=>{  })} -->
+  <!-- {allPosts?.map((post) => {
+return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />)
+    })} -->
+
+  <!-- {allPosts.map((post) => (
+      <Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />
+    ))} -->
+
+  <!-- Ensure allPosts is an array or initialize it as an empty array -->
+  {#if allPosts && allPosts.length > 0}
+    {#each allPosts as postItems}
+      <Posts
+        p_id={postItems.post_id}
+        title={postItems.post_title}
+        file={postItems.file_address}
+        description={postItems.post_description}
+        u_id={postItems.uploader_id}
+      />
+    {/each}
+  {:else}
+    <!-- Handle case when allPosts is null or empty -->
+    <p>No posts available</p>
+  {/if}
+  <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
+      <Posts  />
+    </div>
+ 
+  <Posts /> -->
 
   <button on:click={() => (showModal = true)}> show modal </button>
 
@@ -164,7 +193,9 @@
   body {
     background-color: #637680;
   }
-
+  .post-wrapper {
+    /* max-width: 600px; */
+  }
   @media only screen and (max-width: 400px) {
     /* body {
     background-color: lightblue;
