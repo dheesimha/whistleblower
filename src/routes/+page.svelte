@@ -2,20 +2,19 @@
   import { onMount } from "svelte";
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
+  let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
   import Modal from "$lib/Modal.svelte";
-  import {signer} from "../stores.js";
+  import { signer } from "../stores.js";
   // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
   let showModal = false;
   let window2, provider;
-  let CONTRACT_ADDRESS = "0xCd31A1a5B66e8B4E178a9AcD3A858ed009ac781f";
+
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
-    if($signer!==null || $signer!==undefined)
-    {
-      await connectWallet()
-
+    if ($signer !== null || $signer !== undefined) {
+      await connectWallet();
     }
 
     //   let ANTI_ADDRESS = 0xd9145cce52d386f254917e481eb44e9943f39138;
@@ -38,8 +37,17 @@
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-        signer.set(provider.getSigner());
-        
+        await signer.set(provider.getSigner());
+        console.log($signer)
+        // localStorage.setItem("signer", JSON.stringify($signer));
+
+        if ($signer !== null || $signer !== undefined) {
+          console.log("Address");
+          let signerWalletAddress = await $signer.getAddress();
+          localStorage.setItem("signerAddress", signerWalletAddress);
+
+        }
+
         // Proceed with further interactions using 'provider' and 'signer'
 
         // For example, you can interact with your contract using the signer:
@@ -47,9 +55,8 @@
         // Call contract functions, etc.
         allPosts = await contract.getAllPosts();
         console.log(allPosts);
-        postItems = allPosts[1]
+        postItems = allPosts[1];
         console.log(contract);
-        
       } catch (error) {
         // Handle errors during account access request or other interactions
         console.error("Error:", error);
@@ -76,6 +83,12 @@
     let post = await contract.getAllPosts();
     console.log(post);
   }
+  let comments
+  async function getComments(post_id) {
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
+    comments = await contract.getCommentsByPost(post_id);
+    console.log(comments[0]);
+  }
 </script>
 
 <div class="show-post">
@@ -88,67 +101,64 @@
     get Post
   </button>
   <!-- {times.map((time) => ( -->
-    <!-- {allPosts==null? null : allPosts.map((post)=>{  })} -->
-    <!-- {allPosts?.map((post) => {
+  <!-- {allPosts==null? null : allPosts.map((post)=>{  })} -->
+  <!-- {allPosts?.map((post) => {
 return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />)
     })} -->
 
-    <!-- {allPosts.map((post) => (
+  <!-- {allPosts.map((post) => (
       <Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />
     ))} -->
 
-    <!-- {allPosts?.map((postItems)=>( -->
-      <!-- 111<div on:click={()=> showModal=true} class='post-wrapper' >
+  <!-- {allPosts?.map((postItems)=>( -->
+  <!-- 111<div on:click={()=> showModal=true} class='post-wrapper' >
       <Posts p_id={postItems?.post_id} title={postItems?.post_title} file={postItems?.file_address} description={postItems?.post_description} u_id={postItems?.uploader_id}/>
       </div>  111 -->
-    <!-- ))} -->
-        <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
+  <!-- ))} -->
+  <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
       <Posts  />
     </div>
  
   <Posts /> -->
   {#if allPosts && allPosts.length > 0}
-  {#each allPosts as postItems}
-  <div on:click={()=> {showModal=true; modalNo=postItems.post_id}} class='post-wrapper' >
-    <Posts
-      p_id={postItems.post_id}
-      title={postItems.post_title}
-      file={postItems.file_address}
-      description={postItems.post_description}
-      u_id={postItems.uploader_id}
-    />
-  </div>
-  {/each}
-{:else}
-  <!-- Handle case when allPosts is null or empty -->
-  <p>No posts available</p>
-{/if}
-  <button on:click={() => (showModal = true)}> show modal  </button>
+  
+    {#each allPosts as postItems}
+    <div on:click={()=> {showModal=true; modalNo=postItems; getComments(postItems.post_id)}} class='post-wrapper' >
+      <Posts
+        p_id={postItems.post_id}
+        title={postItems.post_title}
+        file={postItems.file_address}
+        description={postItems.post_description}
+        u_id={postItems.uploader_id}
+      />
+      </div>
+    {/each}
+  {:else}
+    <!-- Handle case when allPosts is null or empty -->
+    <p>No posts available</p>
+  {/if}
 
   <Modal bind:showModal>
-    <h2 slot="header">
-      modal {modalNo}
-      <small><em>adjective</em> mod·al \ˈmō-dəl\</small>
-    </h2>
-
-    <ol class="definition-list">
-      <li>of or relating to modality in logic</li>
-      <li>
-        containing provisions as to the mode of procedure or the manner of
-        taking effect —used of a contract or legacy
-      </li>
-      <li>of or relating to a musical mode</li>
-      <li>of or relating to structure as opposed to substance</li>
-      <li>
-        of, relating to, or constituting a grammatical form or category
-        characteristically indicating predication
-      </li>
-      <li>of or relating to a statistical mode</li>
-    </ol>
-
-    <a href="https://www.merriam-webster.com/dictionary/modal"
-      >merriam-webster.com</a
-    >
+  
+     <Posts
+        p_id={modalNo?.post_id}
+        title={modalNo?.post_title}
+        file={modalNo?.file_address}
+        description={modalNo?.post_description}
+        u_id={modalNo?.uploader_id}
+      />
+      <hr />
+      <p>Comments</p>
+      <div class="comment-section">
+        <!-- {#if comments && comments.length > 0}
+        {#each i as comments[0]} -->
+        <small class="username">0x45D98252382aC4A952FaA8b519639D5D3046C64E</small>
+        <p class="card-content">this is a test comment</p>
+       <input type="text"   placeholder="enter comment"    />
+        <!-- {comments?.map((comment)=>{
+          <small class="username">posted by {u_id}</small>
+        })} -->
+      </div>
   </Modal>
 </div>
 
@@ -159,7 +169,13 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
     padding: 0;
     margin: 0;
   }
-
+.comment-section{
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 17px;
+}
   .btn-createpost {
     max-width: 200px;
     width: 100%;
@@ -193,9 +209,15 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
   body {
     background-color: #637680;
   }
-.post-wrapper{
-  /* max-width: 600px; */
-}
+  .post-wrapper {
+    /* max-width: 600px; */
+  }
+  .username {
+    color: grey;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    /* margin-left: 2rem; */
+  }
   @media only screen and (max-width: 400px) {
     /* body {
     background-color: lightblue;
