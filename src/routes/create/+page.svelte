@@ -1,6 +1,5 @@
 <script>
   import lighthouse from "@lighthouse-web3/sdk";
-  import { signerAddress } from "../../stores";
   import { onMount } from "svelte";
   const progressCallback = (progressData) => {
     let percentageDone =
@@ -8,12 +7,6 @@
     console.log(percentageDone);
   };
 
-  onMount(async () => {
-    if ((await $signerAddress) !== null) {
-      console.log("signerAddress");
-      console.log($signerAddress);
-    }
-  });
   const uploadFile = async (file) => {
     const output = await lighthouse.upload(
       file,

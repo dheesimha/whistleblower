@@ -3,7 +3,7 @@
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
   import Modal from "$lib/Modal.svelte";
-  import { signer, signerAddress } from "../stores.js";
+  import { signer, walletAddress } from "../stores.js";
   // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
   let showModal = false;
@@ -12,11 +12,8 @@
   onMount(async () => {
     window2 = window;
     console.log(window2.ethereum);
-    console.log($signer);
-    if ($signer == null || $signer == undefined) {
+    if ($signer !== null || $signer !== undefined) {
       await connectWallet();
-      console.log("calling connectWallet");
-      console.log("Signer");
     }
 
     //   let ANTI_ADDRESS = 0xd9145cce52d386f254917e481eb44e9943f39138;
@@ -26,7 +23,7 @@
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
   let allPosts;
-  // let post
+  let postItems;
   async function connectWallet() {
     if (window2.ethereum) {
       try {
@@ -38,12 +35,12 @@
         await window2.ethereum.request({ method: "eth_requestAccounts" });
 
         // Get the signer
-        // @ts-ignore
         await signer.set(provider.getSigner());
-        if ($signer !== null) {
-          let address = await $signer.getAddress();
-          console.log(address);
-          await $signerAddress.set(address);
+
+        if ($signer !== null || $signer !== undefined) {
+          console.log("Address");
+          let signerWalletAddress = await $signer.getAddress();
+          localStorage.setItem("signerAddress", signerWalletAddress);
         }
 
         // Proceed with further interactions using 'provider' and 'signer'
@@ -53,7 +50,7 @@
         // Call contract functions, etc.
         allPosts = await contract.getAllPosts();
         console.log(allPosts);
-        // post = allPosts[0]
+        postItems = allPosts[1];
         console.log(contract);
       } catch (error) {
         // Handle errors during account access request or other interactions
@@ -70,7 +67,7 @@
   async function createPost() {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
     await contract.createPost(
-      "this is title",
+      "this is title222",
       "this is the long description",
       "https://gateway.lighthouse.storage/ipfs/QmXPT5Kw285W96jdCes5SufvrqQvYN8dtMM258kW9Eqy3u",
       "11"
@@ -102,7 +99,16 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
       <Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />
     ))} -->
 
-  <!-- Ensure allPosts is an array or initialize it as an empty array -->
+  <!-- {allPosts?.map((postItems)=>( -->
+  <!-- 111<div on:click={()=> showModal=true} class='post-wrapper' >
+      <Posts p_id={postItems?.post_id} title={postItems?.post_title} file={postItems?.file_address} description={postItems?.post_description} u_id={postItems?.uploader_id}/>
+      </div>  111 -->
+  <!-- ))} -->
+  <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
+      <Posts  />
+    </div>
+ 
+  <Posts /> -->
   {#if allPosts && allPosts.length > 0}
     {#each allPosts as postItems}
       <Posts
@@ -117,12 +123,6 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
     <!-- Handle case when allPosts is null or empty -->
     <p>No posts available</p>
   {/if}
-  <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
-      <Posts  />
-    </div>
- 
-  <Posts /> -->
-
   <button on:click={() => (showModal = true)}> show modal </button>
 
   <Modal bind:showModal>
