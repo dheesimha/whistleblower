@@ -24,7 +24,7 @@
     <div class="card-text">
       <p class="card-title">{title}</p>
       <p class="card-content">{description}</p>
-      <a class="card-content" href={file} >evidence and proofs</a>
+      <a class="card-content" href={file} target="_blank" >evidence and proofs</a>
 
     </div>
   </div>

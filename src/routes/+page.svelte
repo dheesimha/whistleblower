@@ -98,8 +98,8 @@
   <div class="navbar">
     <p class="title">Ghost Speak</p>
     <div class="nav-center">
-        <p class="nav-title">products</p>
-        <p class="nav-title">about us</p>
+        <p class="nav-title"> <a href="/" style="text-decoration: none;">Leaks</a></p>
+        <p class="nav-title"> <a href="/create" style="text-decoration: none;">Publish</a></p>
         <p class="nav-title">blog</p>
     </div>
     <button class="contact-us-button">contact us</button>
