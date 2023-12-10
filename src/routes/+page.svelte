@@ -3,7 +3,7 @@
   import { ethers } from "ethers";
   import ABI from "../Whistleblower.json";
   import Modal from "$lib/Modal.svelte";
-  import { signer, walletAddress } from "../stores.js";
+  import { signer } from "../stores.js";
   // import { Button, Modal } from 'antd';
   import Posts from "$lib/Posts.svelte";
   let showModal = false;
