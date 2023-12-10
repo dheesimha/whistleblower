@@ -11,6 +11,8 @@
 onMount(()=>{
   console.log($signer)
 })
+let myId = localStorage.getItem('signerAddress')
+
   const uploadFile = async(file) =>{
 
     const output = await lighthouse.upload(file, "d8ee101c.800c068867e54a9c881008303220d9f0", false, null, progressCallback)

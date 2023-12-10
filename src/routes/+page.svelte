@@ -26,6 +26,7 @@
   });
   let allPosts
   let postItems
+  let modalNo 
   async function connectWallet() {
     if (window2.ethereum) {
       try {
@@ -108,6 +109,7 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
   <Posts /> -->
   {#if allPosts && allPosts.length > 0}
   {#each allPosts as postItems}
+  <div on:click={()=> {showModal=true; modalNo=postItems.post_id}} class='post-wrapper' >
     <Posts
       p_id={postItems.post_id}
       title={postItems.post_title}
@@ -115,16 +117,17 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
       description={postItems.post_description}
       u_id={postItems.uploader_id}
     />
+  </div>
   {/each}
 {:else}
   <!-- Handle case when allPosts is null or empty -->
   <p>No posts available</p>
 {/if}
-  <button on:click={() => (showModal = true)}> show modal </button>
+  <button on:click={() => (showModal = true)}> show modal  </button>
 
   <Modal bind:showModal>
     <h2 slot="header">
-      modal
+      modal {modalNo}
       <small><em>adjective</em> mod·al \ˈmō-dəl\</small>
     </h2>
 
