@@ -25,7 +25,7 @@
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
   let allPosts
-  // let post
+  let postItems
   async function connectWallet() {
     if (window2.ethereum) {
       try {
@@ -46,7 +46,7 @@
         // Call contract functions, etc.
         allPosts = await contract.getAllPosts();
         console.log(allPosts);
-        // post = allPosts[0]
+        postItems = allPosts[1]
         console.log(contract);
         
       } catch (error) {
@@ -64,7 +64,7 @@
   async function createPost() {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
     await contract.createPost(
-      "this is title",
+      "this is title222",
       "this is the long description",
       "https://gateway.lighthouse.storage/ipfs/QmXPT5Kw285W96jdCes5SufvrqQvYN8dtMM258kW9Eqy3u",
       "11"
@@ -96,15 +96,30 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
       <Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_address} description={post?.post_description} u_id={post?.uploader_id} />
     ))} -->
 
-    {allPosts?.map((postItems)=>(
-      <Posts p_id={postItems.post_id} title={postItems.post_title} file={postItems.file_address} description={postItems.post_description} u_id={postItems.uploader_id}/>
-    ))}
+    <!-- {allPosts?.map((postItems)=>( -->
+      <!-- 111<div on:click={()=> showModal=true} class='post-wrapper' >
+      <Posts p_id={postItems?.post_id} title={postItems?.post_title} file={postItems?.file_address} description={postItems?.post_description} u_id={postItems?.uploader_id}/>
+      </div>  111 -->
+    <!-- ))} -->
         <!-- <div on:click={()=> showModal=true} class='post-wrapper' >
       <Posts  />
     </div>
  
   <Posts /> -->
-
+  {#if allPosts && allPosts.length > 0}
+  {#each allPosts as postItems}
+    <Posts
+      p_id={postItems.post_id}
+      title={postItems.post_title}
+      file={postItems.file_address}
+      description={postItems.post_description}
+      u_id={postItems.uploader_id}
+    />
+  {/each}
+{:else}
+  <!-- Handle case when allPosts is null or empty -->
+  <p>No posts available</p>
+{/if}
   <button on:click={() => (showModal = true)}> show modal </button>
 
   <Modal bind:showModal>
