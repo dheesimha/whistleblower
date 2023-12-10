@@ -23,9 +23,9 @@
     //   const signer = provider.getSigner();
     //   const anti = new ethers.Contract(ANTI_ADDRESS, ANTI_ABI, signer);
   });
-  let allPosts
-  let postItems
-  let modalNo 
+  let allPosts;
+  let postItems;
+  let modalNo;
   async function connectWallet() {
     if (window2.ethereum) {
       try {
@@ -38,14 +38,17 @@
 
         // Get the signer
         await signer.set(provider.getSigner());
-        console.log($signer)
+
         // localStorage.setItem("signer", JSON.stringify($signer));
 
         if ($signer !== null || $signer !== undefined) {
           console.log("Address");
           let signerWalletAddress = await $signer.getAddress();
+          console.log(signerWalletAddress);
           localStorage.setItem("signerAddress", signerWalletAddress);
 
+          console.log("The signer is");
+          console.log($signer);
         }
 
         // Proceed with further interactions using 'provider' and 'signer'
@@ -83,7 +86,7 @@
     let post = await contract.getAllPosts();
     console.log(post);
   }
-  let comments
+  let comments;
   async function getComments(post_id) {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, $signer);
     comments = await contract.getCommentsByPost(post_id);
@@ -121,16 +124,22 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
  
   <Posts /> -->
   {#if allPosts && allPosts.length > 0}
-  
     {#each allPosts as postItems}
-    <div on:click={()=> {showModal=true; modalNo=postItems; getComments(postItems.post_id)}} class='post-wrapper' >
-      <Posts
-        p_id={postItems.post_id}
-        title={postItems.post_title}
-        file={postItems.file_address}
-        description={postItems.post_description}
-        u_id={postItems.uploader_id}
-      />
+      <div
+        on:click={() => {
+          showModal = true;
+          modalNo = postItems;
+          getComments(postItems.post_id);
+        }}
+        class="post-wrapper"
+      >
+        <Posts
+          p_id={postItems.post_id}
+          title={postItems.post_title}
+          file={postItems.file_address}
+          description={postItems.post_description}
+          u_id={postItems.uploader_id}
+        />
       </div>
     {/each}
   {:else}
@@ -139,26 +148,25 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
   {/if}
 
   <Modal bind:showModal>
-  
-     <Posts
-        p_id={modalNo?.post_id}
-        title={modalNo?.post_title}
-        file={modalNo?.file_address}
-        description={modalNo?.post_description}
-        u_id={modalNo?.uploader_id}
-      />
-      <hr />
-      <p>Comments</p>
-      <div class="comment-section">
-        <!-- {#if comments && comments.length > 0}
+    <Posts
+      p_id={modalNo?.post_id}
+      title={modalNo?.post_title}
+      file={modalNo?.file_address}
+      description={modalNo?.post_description}
+      u_id={modalNo?.uploader_id}
+    />
+    <hr />
+    <p>Comments</p>
+    <div class="comment-section">
+      <!-- {#if comments && comments.length > 0}
         {#each i as comments[0]} -->
-        <small class="username">0x45D98252382aC4A952FaA8b519639D5D3046C64E</small>
-        <p class="card-content">this is a test comment</p>
-       <input type="text"   placeholder="enter comment"    />
-        <!-- {comments?.map((comment)=>{
+      <small class="username">0x45D98252382aC4A952FaA8b519639D5D3046C64E</small>
+      <p class="card-content">this is a test comment</p>
+      <input type="text" placeholder="enter comment" />
+      <!-- {comments?.map((comment)=>{
           <small class="username">posted by {u_id}</small>
         })} -->
-      </div>
+    </div>
   </Modal>
 </div>
 
@@ -169,13 +177,13 @@ return (<Posts p_id={post?.post_id} title={post?.post_title} file={post?.file_ad
     padding: 0;
     margin: 0;
   }
-.comment-section{
-  width: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 17px;
-}
+  .comment-section {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 17px;
+  }
   .btn-createpost {
     max-width: 200px;
     width: 100%;
